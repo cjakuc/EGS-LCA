@@ -1,0 +1,61 @@
+---
+title: "ENEC 432 Project"
+author: "Chris Jakuc"
+date: "11/27/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+
+```
+
+
+
+```{r}
+df <- read_csv('/Users/chris/Desktop/Fall_2019/ENEC 432/Group Project/Impact Assessment.csv')
+
+df1<-df %>%
+  select(-`EGS Life Cycle w Heat`,-X8,-X9,-X10,-X11,-X12,-X13) %>%
+  rename('Traditional Geothermal'=`Electricity, high voltage {WECC, US only}| electricity production, deep geothermal | Cut-off, S`,'Natural Gas'=`Electricity, high voltage {SERC}| electricity production, natural gas, combined cycle power plant | Cut-off, S`,'Solar'=`Electricity, low voltage {SERC}| electricity production, photovoltaic, 570kWp open ground installation, multi-Si | Cut-off, S`) %>%
+  gather(`EGS Life Cycle`:`Solar`,key="Scenario",value="Value",convert=T) %>%
+  group_by(`Damage category`) %>%
+  mutate(`EGS Impact as Percent of`= (Value[which(Scenario=="EGS Life Cycle")]/Value)*100) %>%
+  ungroup()
+
+```
+
+
+```{r}
+df3 <- df1[df1$Scenario != "EGS Life Cycle", ]
+
+cols <- c("Natural Gas" = "green4", "Solar" = "tomato", "Traditional Geothermal" = "cyan3")
+
+ggplot(df3)+
+  geom_col(aes(x=`Damage category`, y=`EGS Impact as Percent of`, fill = Scenario))+
+  facet_wrap(Scenario~.)+
+  scale_colour_manual(
+    values = cols,
+    aesthetics = c("colour", "fill"))+
+  theme_light()+
+  theme(axis.text.x=element_text(angle=45,hjust=1))+
+  theme(legend.position = "none")
+
+
+
+
+#  ggplot(
+#   mtcars,
+#   aes(mpg, wt, colour = factor(cyl), fill = factor(cyl))
+# ) +
+#   geom_point(shape = 21, alpha = 0.5, size = 2) +
+#   scale_colour_manual(
+#     values = cols,
+#     aesthetics = c("colour", "fill")
+#   )
+
+
+```
+
