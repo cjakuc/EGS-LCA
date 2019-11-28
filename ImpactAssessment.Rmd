@@ -25,6 +25,14 @@ df1<-df %>%
   mutate(`EGS Impact as Percent of`= (Value[which(Scenario=="EGS Life Cycle")]/Value)*100) %>%
   ungroup()
 
+df2<-df %>%
+  select(-`EGS Life Cycle`,-X8,-X9,-X10,-X11,-X12,-X13) %>%
+  rename('Traditional Geothermal'=`Electricity, high voltage {WECC, US only}| electricity production, deep geothermal | Cut-off, S`,'Natural Gas'=`Electricity, high voltage {SERC}| electricity production, natural gas, combined cycle power plant | Cut-off, S`,'Solar'=`Electricity, low voltage {SERC}| electricity production, photovoltaic, 570kWp open ground installation, multi-Si | Cut-off, S`) %>%
+  gather(`EGS Life Cycle w Heat`:`Solar`,key="Scenario",value="Value",convert=T) %>%
+  group_by(`Damage category`) %>%
+  mutate(`EGS w Heat Impact as Percent of`= (Value[which(Scenario=="EGS Life Cycle w Heat")]/Value)*100) %>%
+  ungroup()
+
 ```
 
 
@@ -43,18 +51,17 @@ ggplot(df3)+
   theme(axis.text.x=element_text(angle=45,hjust=1))+
   theme(legend.position = "none")
 
+df4 <- df2[df2$Scenario != "EGS Life Cycle w Heat", ]
 
-
-
-#  ggplot(
-#   mtcars,
-#   aes(mpg, wt, colour = factor(cyl), fill = factor(cyl))
-# ) +
-#   geom_point(shape = 21, alpha = 0.5, size = 2) +
-#   scale_colour_manual(
-#     values = cols,
-#     aesthetics = c("colour", "fill")
-#   )
+ggplot(df4)+
+  geom_col(aes(x=`Damage category`, y=`EGS w Heat Impact as Percent of`, fill = Scenario))+
+  facet_wrap(Scenario~.)+
+  scale_colour_manual(
+    values = cols,
+    aesthetics = c("colour", "fill"))+
+  theme_light()+
+  theme(axis.text.x=element_text(angle=45,hjust=1))+
+  theme(legend.position = "none")
 
 
 ```
