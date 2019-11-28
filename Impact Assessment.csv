@@ -1,0 +1,5 @@
+﻿Damage category,Unit,EGS Life Cycle,EGS Life Cycle w Heat,"Electricity, high voltage {WECC, US only}| electricity production, deep geothermal | Cut-off, S","Electricity, high voltage {SERC}| electricity production, natural gas, combined cycle power plant | Cut-off, S","Electricity, low voltage {SERC}| electricity production, photovoltaic, 570kWp open ground installation, multi-Si | Cut-off, S",,,,,,
+Human health,DALY,9.29E-08,8.28E-08,1.04E-07,1.05E-07,9.00E-08,,,,,,
+Ecosystem quality,PDF*m2*yr,0.021273,0.019916,0.383919,0.014367,0.057682,,,,,,
+Climate change,kg CO2 eq,0.062095,0.016202,0.070247,0.425633,0.063931,,,,,,
+Resources,MJ primary,0.938826,0.078455,0.992384,7.689725,0.897284,,,,,,
